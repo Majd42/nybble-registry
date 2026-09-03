@@ -1,0 +1,5 @@
+category = "model"
+tags = ["model", "3d", "gltf", "khronos"]
+maintainer = "Nybble"
+homepage = "https://registry.khronos.org/glTF/specs/2.0/glTF-2.0.html"
+sample = ""

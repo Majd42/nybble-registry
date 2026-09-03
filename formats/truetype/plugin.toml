@@ -1,0 +1,58 @@
+id = "truetype"
+name = "TrueType / OpenType font"
+version = "1.0.0"
+description = "SFNT font: header + table directory (TrueType and OpenType/CFF)."
+author = "Nybble"
+
+[[formats]]
+name = "TTF"
+extension = "ttf"
+description = "TrueType font (sfnt version 0x00010000)"
+confidence = 65
+entry = "SfntFont"
+endian = "be"
+detect = [{ offset = 0, hex = "00 01 00 00" }]
+schema = """
+struct TableRecord {
+    tag      char[4] "table tag (e.g. glyf, cmap, head, name)"
+    checksum u32     "checksum for this table"
+    offset   u32     "offset of the table from the start of the file"
+    length   u32     "length of this table in bytes"
+}
+
+struct SfntFont {
+    sfntVersion   u32 "0x00010000 for TrueType outlines, OTTO for CFF"
+    numTables     u16 "number of tables"
+    searchRange   u16 "(largest power of two <= numTables) times 16"
+    entrySelector u16 "log2 of the largest power of two <= numTables"
+    rangeShift    u16 "numTables times 16, minus searchRange"
+    tables        TableRecord[numTables] "the table directory"
+}
+"""
+
+[[formats]]
+name = "OTF"
+extension = "otf"
+description = "OpenType font with CFF outlines (OTTO)"
+confidence = 85
+entry = "SfntFont"
+endian = "be"
+# "OTTO"
+detect = [{ offset = 0, hex = "4F 54 54 4F" }]
+schema = """
+struct TableRecord {
+    tag      char[4] "table tag (e.g. CFF, cmap, head, name)"
+    checksum u32     "checksum for this table"
+    offset   u32     "offset of the table from the start of the file"
+    length   u32     "length of this table in bytes"
+}
+
+struct SfntFont {
+    sfntVersion   u32 "OTTO for OpenType/CFF outlines"
+    numTables     u16 "number of tables"
+    searchRange   u16 "(largest power of two <= numTables) times 16"
+    entrySelector u16 "log2 of the largest power of two <= numTables"
+    rangeShift    u16 "numTables times 16, minus searchRange"
+    tables        TableRecord[numTables] "the table directory"
+}
+"""

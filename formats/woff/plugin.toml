@@ -1,0 +1,32 @@
+id = "woff"
+name = "WOFF web font"
+version = "1.0.0"
+description = "Web Open Font Format wrapper header (WOFF 1.0)."
+author = "Nybble"
+
+[[formats]]
+name = "WOFF"
+extension = "woff"
+description = "Web Open Font Format header"
+confidence = 90
+entry = "WoffHeader"
+endian = "be"
+# "wOFF"
+detect = [{ offset = 0, hex = "77 4F 46 46" }]
+schema = """
+struct WoffHeader {
+    signature      char[4] "wOFF"
+    flavor         u32     "sfnt version of the wrapped font"
+    length         u32     "total WOFF file size"
+    numTables      u16     "number of font tables"
+    reserved       u16     "reserved (0)"
+    totalSfntSize  u32     "size of the uncompressed font data"
+    majorVersion   u16     "WOFF major version"
+    minorVersion   u16     "WOFF minor version"
+    metaOffset     u32     "offset to the metadata block"
+    metaLength     u32     "compressed metadata length"
+    metaOrigLength u32     "uncompressed metadata length"
+    privOffset     u32     "offset to the private data block"
+    privLength     u32     "private data length"
+}
+"""

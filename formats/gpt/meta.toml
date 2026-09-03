@@ -1,0 +1,5 @@
+category = "filesystem"
+tags = ["filesystem", "disk", "partition", "uefi"]
+maintainer = "Nybble"
+homepage = "https://en.wikipedia.org/wiki/GUID_Partition_Table"
+sample = ""

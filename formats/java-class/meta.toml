@@ -1,0 +1,5 @@
+category = "executable"
+tags = ["executable", "java", "jvm", "bytecode"]
+maintainer = "Nybble"
+homepage = "https://docs.oracle.com/javase/specs/jvms/se17/html/jvms-4.html"
+sample = ""

@@ -1,0 +1,74 @@
+id = "java-class"
+name = "Java class file"
+version = "1.0.0"
+description = "Java .class: version, a tag-dispatched constant pool, access flags and class refs."
+author = "Nybble"
+
+[[formats]]
+name = "Java class"
+extension = "class"
+description = "Java .class: version, a tag-dispatched constant pool, access flags and class refs."
+confidence = 95
+entry = "ClassFile"
+endian = "be"
+detect = [{ offset = 0, hex = "CA FE BA BE" }]
+schema = """
+// Java .class — big-endian. Magic, version, then the constant pool (a classic
+// tag-dispatched table), access flags, this/super class and interfaces.
+// Caveat: Long/Double constants (tags 5/6) each take TWO pool slots; this
+// schema counts one slot per entry, so classes using those will desync after
+// them (needs conditional counts to fix).
+bitfield ClassAccess : u16 {
+    public     0
+    final      4
+    super      5
+    interface  9
+    abstract   10
+    synthetic  12
+    annotation 13
+    isEnum     14
+    module     15
+}
+
+struct CpUtf8    { length u16  text string[length] "UTF-8 constant" }
+struct CpRef     { classIndex u16  nameTypeIndex u16 "class/field/method reference" }
+struct CpIndex1  { index u16 "single constant-pool index" }
+struct CpMethodHandle { refKind u8  refIndex u16 "method handle" }
+
+struct CpInfo {
+    tag u8 "constant type tag"
+    info match tag {
+        1  => CpUtf8
+        3  => u32
+        4  => f32
+        5  => u64
+        6  => f64
+        7  => CpIndex1
+        8  => CpIndex1
+        9  => CpRef
+        10 => CpRef
+        11 => CpRef
+        12 => CpRef
+        15 => CpMethodHandle
+        16 => CpIndex1
+        17 => CpRef
+        18 => CpRef
+        19 => CpIndex1
+        20 => CpIndex1
+    }
+}
+
+struct ClassFile {
+    magic          char[4]     "magic CAFEBABE"
+    minor          u16         "minor version"
+    major          u16         "major version (52 = Java 8, 61 = Java 17)"
+    cpCount        u16         "constant pool count (entries = count - 1)"
+    cpEntries      = cpCount - 1
+    constantPool   CpInfo[cpEntries] "the constant pool"
+    accessFlags    ClassAccess "class access flags"
+    thisClass      u16         "this class (constant-pool index)"
+    superClass     u16         "super class (constant-pool index)"
+    interfaceCount u16         "number of direct superinterfaces"
+    interfaces     u16[interfaceCount] "interface constant-pool indices"
+}
+"""

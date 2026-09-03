@@ -1,0 +1,31 @@
+id = "glb"
+name = "glTF binary"
+version = "1.0.0"
+description = "glTF binary (.glb) 3D asset: 12-byte header and a JSON/BIN chunk stream."
+author = "Nybble"
+
+[[formats]]
+name = "GLB"
+extension = "glb"
+description = "glTF binary (.glb) 3D asset: 12-byte header and a JSON/BIN chunk stream."
+confidence = 90
+entry = "Glb"
+endian = "le"
+detect = [{ offset = 0, hex = "67 6C 54 46" }]
+schema = """
+// glTF binary (.glb) — little-endian 12-byte header + a chunk stream.
+struct GlbChunk {
+    length    u32     "chunk data length in bytes"
+    chunkType char[4] "JSON structure chunk, or the BIN binary buffer chunk"
+    data match chunkType {
+        "JSON"  => string[length]
+        default => bytes[length]
+    }
+}
+struct Glb {
+    magic   char[4] "magic 'glTF'"
+    version u32     "GLB container version (2)"
+    length  u32     "total length of the file in bytes"
+    chunks  repeat GlbChunk "JSON chunk then BIN chunk"
+}
+"""

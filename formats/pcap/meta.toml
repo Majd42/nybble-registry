@@ -1,0 +1,5 @@
+category = "network"
+tags = ["network", "capture", "tcpdump", "wireshark"]
+maintainer = "Nybble"
+homepage = "https://wiki.wireshark.org/Development/LibpcapFileFormat"
+sample = ""

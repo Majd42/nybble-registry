@@ -1,0 +1,42 @@
+id = "dex"
+name = "Dalvik DEX"
+version = "1.0.0"
+description = "Android Dalvik executable (.dex) header with section table offsets."
+author = "Nybble"
+
+[[formats]]
+name = "DEX"
+extension = "dex"
+description = "Android Dalvik executable header"
+confidence = 90
+entry = "DexHeader"
+endian = "le"
+# "dex\n" (magic continues with a 3-digit version and NUL).
+detect = [{ offset = 0, hex = "64 65 78 0A" }]
+schema = """
+struct DexHeader {
+    magic         bytes[8]  "magic: dex, LF, 3-digit version, NUL"
+    checksum      u32       "adler32 checksum of the rest of the file"
+    signature     bytes[20] "SHA-1 signature of the rest of the file"
+    fileSize      u32       "size of the entire file"
+    headerSize    u32       "size of this header (0x70)"
+    endianTag     u32       "0x12345678 for little-endian"
+    linkSize      u32       "size of the link section"
+    linkOff       u32       "offset of the link section"
+    mapOff        u32       "offset of the map list"
+    stringIdsSize u32       "count of entries in the string id list"
+    stringIdsOff  u32       "offset of the string id list"
+    typeIdsSize   u32       "count of entries in the type id list"
+    typeIdsOff    u32       "offset of the type id list"
+    protoIdsSize  u32       "count of entries in the proto id list"
+    protoIdsOff   u32       "offset of the proto id list"
+    fieldIdsSize  u32       "count of entries in the field id list"
+    fieldIdsOff   u32       "offset of the field id list"
+    methodIdsSize u32       "count of entries in the method id list"
+    methodIdsOff  u32       "offset of the method id list"
+    classDefsSize u32       "count of entries in the class def list"
+    classDefsOff  u32       "offset of the class def list"
+    dataSize      u32       "size of the data section"
+    dataOff       u32       "offset of the data section"
+}
+"""

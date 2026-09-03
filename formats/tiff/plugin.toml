@@ -1,0 +1,67 @@
+id = "tiff"
+name = "TIFF image"
+version = "1.0.0"
+description = "TIFF header + first image file directory (both byte orders)."
+author = "Nybble"
+
+[[formats]]
+name = "TIFF (LE)"
+extension = "tiff"
+description = "TIFF image, little-endian (II)"
+confidence = 85
+entry = "Tiff"
+endian = "le"
+# "II" 0x2A00
+detect = [{ offset = 0, hex = "49 49 2A 00" }]
+schema = """
+struct TiffEntry {
+    tag         u16 "field tag (identifies the metadata field)"
+    fieldType   u16 "1=byte 2=ascii 3=short 4=long 5=rational"
+    count       u32 "number of values"
+    valueOffset u32 "the value itself, or an offset to it"
+}
+
+struct TiffIfd {
+    numEntries u16 "number of directory entries"
+    entries    TiffEntry[numEntries] "image file directory entries"
+    nextIfd    u32 "offset of the next IFD (0 if this is the last)"
+}
+
+struct Tiff {
+    byteOrder u16 "0x4949 (II) little-endian or 0x4D4D (MM) big-endian"
+    magic     u16 "42, the TIFF version answer"
+    ifdOffset u32 "offset of the first image file directory"
+    ifd       at ifdOffset TiffIfd "first image file directory"
+}
+"""
+
+[[formats]]
+name = "TIFF (BE)"
+extension = "tiff"
+description = "TIFF image, big-endian (MM)"
+confidence = 85
+entry = "Tiff"
+endian = "be"
+# "MM" 0x002A
+detect = [{ offset = 0, hex = "4D 4D 00 2A" }]
+schema = """
+struct TiffEntry {
+    tag         u16 "field tag (identifies the metadata field)"
+    fieldType   u16 "1=byte 2=ascii 3=short 4=long 5=rational"
+    count       u32 "number of values"
+    valueOffset u32 "the value itself, or an offset to it"
+}
+
+struct TiffIfd {
+    numEntries u16 "number of directory entries"
+    entries    TiffEntry[numEntries] "image file directory entries"
+    nextIfd    u32 "offset of the next IFD (0 if this is the last)"
+}
+
+struct Tiff {
+    byteOrder u16 "0x4949 (II) little-endian or 0x4D4D (MM) big-endian"
+    magic     u16 "42, the TIFF version answer"
+    ifdOffset u32 "offset of the first image file directory"
+    ifd       at ifdOffset TiffIfd "first image file directory"
+}
+"""

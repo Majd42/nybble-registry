@@ -1,0 +1,9 @@
+# Registry metadata for the `gif` format pack. This is registry-only data:
+# categorization and provenance the app doesn't need but the gallery does.
+# The installable manifest lives next to this file in `plugin.toml`.
+category = "image"
+tags = ["image", "graphics", "raster"]
+maintainer = "Nybble examples"
+homepage = "https://www.w3.org/Graphics/GIF/spec-gif89a.txt"
+# A tiny public sample a user could open to see this pack in action (optional).
+sample = ""

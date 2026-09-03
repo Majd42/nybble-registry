@@ -1,0 +1,23 @@
+id = "webp"
+name = "WebP image"
+version = "1.0.0"
+description = "WebP RIFF container header and first chunk (VP8 / VP8L / VP8X)."
+author = "Nybble"
+
+[[formats]]
+name = "WebP"
+extension = "webp"
+description = "WebP image (RIFF container)"
+confidence = 90
+entry = "WebP"
+endian = "le"
+detect = [{ offset = 0, hex = "52 49 46 46" }, { offset = 8, hex = "57 45 42 50" }]
+schema = """
+struct WebP {
+    riff      char[4] "RIFF container tag"
+    fileSize  u32     "file size minus 8 bytes"
+    webp      char[4] "WEBP form type"
+    chunkType char[4] "first chunk: VP8 (lossy), VP8L (lossless), or VP8X"
+    chunkSize u32     "size of the first chunk in bytes"
+}
+"""

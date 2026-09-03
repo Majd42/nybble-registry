@@ -1,0 +1,490 @@
+{
+  "version": 1,
+  "count": 21,
+  "formats": [
+    {
+      "id": "aiff",
+      "name": "AIFF audio",
+      "version": "1.0.0",
+      "description": "AIFF (Audio IFF) FORM container header and first chunk.",
+      "author": "Nybble",
+      "category": "audio",
+      "tags": [
+        "audio",
+        "iff",
+        "apple"
+      ],
+      "formats": [
+        {
+          "name": "AIFF",
+          "extension": "aiff",
+          "detects": true,
+          "confidence": 90
+        }
+      ],
+      "path": "formats/aiff/plugin.toml"
+    },
+    {
+      "id": "avi",
+      "name": "AVI video",
+      "version": "1.0.0",
+      "description": "AVI (RIFF) container: header plus a first-level chunk walk.",
+      "author": "Nybble",
+      "category": "video",
+      "tags": [
+        "video",
+        "riff",
+        "microsoft"
+      ],
+      "formats": [
+        {
+          "name": "AVI",
+          "extension": "avi",
+          "detects": true,
+          "confidence": 90
+        }
+      ],
+      "path": "formats/avi/plugin.toml"
+    },
+    {
+      "id": "bmp",
+      "name": "BMP image",
+      "version": "1.0.0",
+      "description": "Windows bitmap: file header + BITMAPINFOHEADER (with a pixel-data pointer).",
+      "author": "Nybble",
+      "category": "image",
+      "tags": [
+        "image",
+        "bitmap",
+        "windows"
+      ],
+      "formats": [
+        {
+          "name": "BMP",
+          "extension": "bmp",
+          "detects": true,
+          "confidence": 80
+        }
+      ],
+      "path": "formats/bmp/plugin.toml"
+    },
+    {
+      "id": "dex",
+      "name": "Dalvik DEX",
+      "version": "1.0.0",
+      "description": "Android Dalvik executable (.dex) header with section table offsets.",
+      "author": "Nybble",
+      "category": "executable",
+      "tags": [
+        "executable",
+        "android",
+        "dalvik",
+        "bytecode"
+      ],
+      "formats": [
+        {
+          "name": "DEX",
+          "extension": "dex",
+          "detects": true,
+          "confidence": 90
+        }
+      ],
+      "path": "formats/dex/plugin.toml"
+    },
+    {
+      "id": "flac",
+      "name": "FLAC audio",
+      "version": "1.0.0",
+      "description": "FLAC lossless audio: magic and metadata-block stream, walked to the last block.",
+      "author": "Nybble",
+      "category": "audio",
+      "tags": [
+        "audio",
+        "lossless",
+        "xiph"
+      ],
+      "formats": [
+        {
+          "name": "FLAC",
+          "extension": "flac",
+          "detects": true,
+          "confidence": 95
+        }
+      ],
+      "path": "formats/flac/plugin.toml"
+    },
+    {
+      "id": "gif",
+      "name": "GIF image",
+      "version": "1.0.0",
+      "description": "GIF87a / GIF89a header and logical screen descriptor.",
+      "author": "Nybble examples",
+      "category": "image",
+      "tags": [
+        "image",
+        "graphics",
+        "raster"
+      ],
+      "formats": [
+        {
+          "name": "GIF",
+          "extension": "gif",
+          "detects": true,
+          "confidence": 90
+        }
+      ],
+      "path": "formats/gif/plugin.toml"
+    },
+    {
+      "id": "glb",
+      "name": "glTF binary",
+      "version": "1.0.0",
+      "description": "glTF binary (.glb) 3D asset: 12-byte header and a JSON/BIN chunk stream.",
+      "author": "Nybble",
+      "category": "model",
+      "tags": [
+        "model",
+        "3d",
+        "gltf",
+        "khronos"
+      ],
+      "formats": [
+        {
+          "name": "GLB",
+          "extension": "glb",
+          "detects": true,
+          "confidence": 90
+        }
+      ],
+      "path": "formats/glb/plugin.toml"
+    },
+    {
+      "id": "gpt",
+      "name": "GPT partition table",
+      "version": "1.0.0",
+      "description": "GUID Partition Table header (after the protective MBR, at LBA 1).",
+      "author": "Nybble",
+      "category": "filesystem",
+      "tags": [
+        "filesystem",
+        "disk",
+        "partition",
+        "uefi"
+      ],
+      "formats": [
+        {
+          "name": "GPT",
+          "extension": "img",
+          "detects": true,
+          "confidence": 90
+        }
+      ],
+      "path": "formats/gpt/plugin.toml"
+    },
+    {
+      "id": "ico",
+      "name": "Windows icon / cursor",
+      "version": "1.0.0",
+      "description": "ICO / CUR icon directory and per-image entries.",
+      "author": "Nybble",
+      "category": "image",
+      "tags": [
+        "image",
+        "icon",
+        "windows"
+      ],
+      "formats": [
+        {
+          "name": "ICO",
+          "extension": "ico",
+          "detects": true,
+          "confidence": 70
+        }
+      ],
+      "path": "formats/ico/plugin.toml"
+    },
+    {
+      "id": "java-class",
+      "name": "Java class file",
+      "version": "1.0.0",
+      "description": "Java .class: version, a tag-dispatched constant pool, access flags and class refs.",
+      "author": "Nybble",
+      "category": "executable",
+      "tags": [
+        "executable",
+        "java",
+        "jvm",
+        "bytecode"
+      ],
+      "formats": [
+        {
+          "name": "Java class",
+          "extension": "class",
+          "detects": true,
+          "confidence": 95
+        }
+      ],
+      "path": "formats/java-class/plugin.toml"
+    },
+    {
+      "id": "jpeg",
+      "name": "JPEG image",
+      "version": "1.0.0",
+      "description": "JPEG start-of-image and the first marker segment (APP0/APP1/...).",
+      "author": "Nybble",
+      "category": "image",
+      "tags": [
+        "image",
+        "photo",
+        "jfif",
+        "exif"
+      ],
+      "formats": [
+        {
+          "name": "JPEG",
+          "extension": "jpg",
+          "detects": true,
+          "confidence": 90
+        }
+      ],
+      "path": "formats/jpeg/plugin.toml"
+    },
+    {
+      "id": "macho",
+      "name": "Mach-O executable",
+      "version": "1.0.0",
+      "description": "64-bit Mach-O header (macOS / iOS executables and libraries).",
+      "author": "Nybble",
+      "category": "executable",
+      "tags": [
+        "executable",
+        "macos",
+        "ios",
+        "binary"
+      ],
+      "formats": [
+        {
+          "name": "Mach-O 64",
+          "extension": "dylib",
+          "detects": true,
+          "confidence": 85
+        }
+      ],
+      "path": "formats/macho/plugin.toml"
+    },
+    {
+      "id": "mbr",
+      "name": "MBR partition table",
+      "version": "1.0.0",
+      "description": "Master Boot Record: bootstrap, four primary partitions, boot signature.",
+      "author": "Nybble",
+      "category": "filesystem",
+      "tags": [
+        "filesystem",
+        "disk",
+        "partition",
+        "boot"
+      ],
+      "formats": [
+        {
+          "name": "MBR",
+          "extension": "img",
+          "detects": true,
+          "confidence": 50
+        }
+      ],
+      "path": "formats/mbr/plugin.toml"
+    },
+    {
+      "id": "pcap",
+      "name": "PCAP capture",
+      "version": "1.0.0",
+      "description": "libpcap / tcpdump capture file: global header + first packet record.",
+      "author": "Nybble",
+      "category": "network",
+      "tags": [
+        "network",
+        "capture",
+        "tcpdump",
+        "wireshark"
+      ],
+      "formats": [
+        {
+          "name": "PCAP",
+          "extension": "pcap",
+          "detects": true,
+          "confidence": 90
+        }
+      ],
+      "path": "formats/pcap/plugin.toml"
+    },
+    {
+      "id": "qoi",
+      "name": "QOI image",
+      "version": "1.0.0",
+      "description": "QOI (Quite OK Image) header and encoded pixel stream.",
+      "author": "Nybble",
+      "category": "image",
+      "tags": [
+        "image",
+        "lossless",
+        "graphics"
+      ],
+      "formats": [
+        {
+          "name": "QOI",
+          "extension": "qoi",
+          "detects": true,
+          "confidence": 95
+        }
+      ],
+      "path": "formats/qoi/plugin.toml"
+    },
+    {
+      "id": "tar",
+      "name": "TAR archive",
+      "version": "1.0.0",
+      "description": "POSIX ustar tar archive header (first 512-byte record).",
+      "author": "Nybble",
+      "category": "archive",
+      "tags": [
+        "archive",
+        "unix",
+        "tarball"
+      ],
+      "formats": [
+        {
+          "name": "TAR",
+          "extension": "tar",
+          "detects": true,
+          "confidence": 80
+        }
+      ],
+      "path": "formats/tar/plugin.toml"
+    },
+    {
+      "id": "tiff",
+      "name": "TIFF image",
+      "version": "1.0.0",
+      "description": "TIFF header + first image file directory (both byte orders).",
+      "author": "Nybble",
+      "category": "image",
+      "tags": [
+        "image",
+        "raster",
+        "metadata"
+      ],
+      "formats": [
+        {
+          "name": "TIFF (LE)",
+          "extension": "tiff",
+          "detects": true,
+          "confidence": 85
+        },
+        {
+          "name": "TIFF (BE)",
+          "extension": "tiff",
+          "detects": true,
+          "confidence": 85
+        }
+      ],
+      "path": "formats/tiff/plugin.toml"
+    },
+    {
+      "id": "truetype",
+      "name": "TrueType / OpenType font",
+      "version": "1.0.0",
+      "description": "SFNT font: header + table directory (TrueType and OpenType/CFF).",
+      "author": "Nybble",
+      "category": "font",
+      "tags": [
+        "font",
+        "typography",
+        "sfnt",
+        "opentype"
+      ],
+      "formats": [
+        {
+          "name": "TTF",
+          "extension": "ttf",
+          "detects": true,
+          "confidence": 65
+        },
+        {
+          "name": "OTF",
+          "extension": "otf",
+          "detects": true,
+          "confidence": 85
+        }
+      ],
+      "path": "formats/truetype/plugin.toml"
+    },
+    {
+      "id": "wav",
+      "name": "WAV audio",
+      "version": "1.0.0",
+      "description": "RIFF/WAVE audio: RIFF header plus the fmt chunk.",
+      "author": "Nybble",
+      "category": "audio",
+      "tags": [
+        "audio",
+        "riff",
+        "wave"
+      ],
+      "formats": [
+        {
+          "name": "WAV",
+          "extension": "wav",
+          "detects": true,
+          "confidence": 100
+        }
+      ],
+      "path": "formats/wav/plugin.toml"
+    },
+    {
+      "id": "webp",
+      "name": "WebP image",
+      "version": "1.0.0",
+      "description": "WebP RIFF container header and first chunk (VP8 / VP8L / VP8X).",
+      "author": "Nybble",
+      "category": "image",
+      "tags": [
+        "image",
+        "riff",
+        "web"
+      ],
+      "formats": [
+        {
+          "name": "WebP",
+          "extension": "webp",
+          "detects": true,
+          "confidence": 90
+        }
+      ],
+      "path": "formats/webp/plugin.toml"
+    },
+    {
+      "id": "woff",
+      "name": "WOFF web font",
+      "version": "1.0.0",
+      "description": "Web Open Font Format wrapper header (WOFF 1.0).",
+      "author": "Nybble",
+      "category": "font",
+      "tags": [
+        "font",
+        "web",
+        "sfnt",
+        "woff"
+      ],
+      "formats": [
+        {
+          "name": "WOFF",
+          "extension": "woff",
+          "detects": true,
+          "confidence": 90
+        }
+      ],
+      "path": "formats/woff/plugin.toml"
+    }
+  ]
+}

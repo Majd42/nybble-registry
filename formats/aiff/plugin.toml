@@ -1,0 +1,23 @@
+id = "aiff"
+name = "AIFF audio"
+version = "1.0.0"
+description = "AIFF (Audio IFF) FORM container header and first chunk."
+author = "Nybble"
+
+[[formats]]
+name = "AIFF"
+extension = "aiff"
+description = "Audio Interchange File Format (IFF container)"
+confidence = 90
+entry = "Aiff"
+endian = "be"
+detect = [{ offset = 0, hex = "46 4F 52 4D" }, { offset = 8, hex = "41 49 46 46" }]
+schema = """
+struct Aiff {
+    form        char[4] "FORM container tag"
+    fileSize    u32     "size of everything after this field"
+    formType    char[4] "AIFF (or AIFC for compressed)"
+    firstCkID   char[4] "first chunk id (often COMM or FVER)"
+    firstCkSize u32     "size of the first chunk"
+}
+"""

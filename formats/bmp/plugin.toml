@@ -1,0 +1,44 @@
+id = "bmp"
+name = "BMP image"
+version = "1.0.0"
+description = "Windows bitmap: file header + BITMAPINFOHEADER (with a pixel-data pointer)."
+author = "Nybble"
+
+[[formats]]
+name = "BMP"
+extension = "bmp"
+description = "Windows BMP (little-endian)"
+confidence = 80
+entry = "BMP"
+endian = "le"
+# "BM" signature.
+detect = [{ offset = 0, hex = "42 4D" }]
+schema = """
+struct BmpFileHeader {
+    signature  char[2]
+    fileSize   u32
+    reserved1  u16
+    reserved2  u16
+    dataOffset u32
+    firstPixels at dataOffset bytes[4] "first bytes of the pixel array (via dataOffset)"
+}
+
+struct BmpInfoHeader {
+    headerSize      u32
+    width           i32
+    height          i32
+    planes          u16
+    bitCount        u16
+    compression     u32
+    imageSize       u32
+    xPixelsPerMeter i32
+    yPixelsPerMeter i32
+    colorsUsed      u32
+    colorsImportant u32
+}
+
+struct BMP {
+    file BmpFileHeader
+    info BmpInfoHeader
+}
+"""

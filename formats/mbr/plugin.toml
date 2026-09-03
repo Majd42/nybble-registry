@@ -1,0 +1,54 @@
+id = "mbr"
+name = "MBR partition table"
+version = "1.0.0"
+description = "Master Boot Record: bootstrap, four primary partitions, boot signature."
+author = "Nybble"
+
+[[formats]]
+name = "MBR"
+extension = "img"
+description = "Master Boot Record (512-byte boot sector)"
+confidence = 50
+entry = "Mbr"
+endian = "le"
+# 0xAA55 boot signature at offset 510 (generic — low confidence).
+detect = [{ offset = 510, hex = "55 AA" }]
+schema = """
+enum MbrPartType : u8 {
+    Empty         = 0
+    Fat12         = 1
+    Fat16Small    = 4
+    Extended      = 5
+    Fat16         = 6
+    NtfsExfat     = 7
+    Fat32Chs      = 11
+    Fat32Lba      = 12
+    Fat16Lba      = 14
+    LinuxSwap     = 130
+    Linux         = 131
+    LinuxLvm      = 142
+    GptProtective = 238
+    EfiSystem     = 239
+}
+
+struct ChsAddress {
+    head     u8 "head"
+    sector   u8 "sector in bits 0-5, cylinder high bits in 6-7"
+    cylinder u8 "cylinder low 8 bits"
+}
+
+struct MbrPartition {
+    status   u8          "0x80 = bootable, 0x00 = inactive"
+    firstChs ChsAddress  "CHS address of the first sector"
+    type     MbrPartType "partition type"
+    lastChs  ChsAddress  "CHS address of the last sector"
+    firstLba u32         "LBA of the first sector"
+    sectors  u32         "number of sectors in the partition"
+}
+
+struct Mbr {
+    bootstrap  bytes[446]      "bootstrap code area"
+    partitions MbrPartition[4] "the four primary partition entries"
+    signature  u16             "0xAA55 boot signature"
+}
+"""

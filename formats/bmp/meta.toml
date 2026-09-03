@@ -1,0 +1,5 @@
+category = "image"
+tags = ["image", "bitmap", "windows"]
+maintainer = "Nybble"
+homepage = "https://en.wikipedia.org/wiki/BMP_file_format"
+sample = ""

@@ -1,0 +1,36 @@
+id = "tar"
+name = "TAR archive"
+version = "1.0.0"
+description = "POSIX ustar tar archive header (first 512-byte record)."
+author = "Nybble"
+
+[[formats]]
+name = "TAR"
+extension = "tar"
+description = "ustar tar archive header"
+confidence = 80
+entry = "TarHeader"
+endian = "le"
+# "ustar" magic lives at offset 257 in the header.
+detect = [{ offset = 257, hex = "75 73 74 61 72" }]
+schema = """
+struct TarHeader {
+    name     string[100] "file name"
+    mode     string[8]   "file mode (octal ASCII)"
+    uid      string[8]   "owner user id (octal ASCII)"
+    gid      string[8]   "owner group id (octal ASCII)"
+    size     string[12]  "file size in bytes (octal ASCII)"
+    mtime    string[12]  "modification time (octal ASCII)"
+    checksum string[8]   "header checksum (octal ASCII)"
+    typeflag char        "entry type: 0 = file, 5 = directory"
+    linkname string[100] "link target name"
+    magic    string[6]   "format magic (ustar)"
+    version  string[2]   "ustar version"
+    uname    string[32]  "owner user name"
+    gname    string[32]  "owner group name"
+    devmajor string[8]   "device major number (octal ASCII)"
+    devminor string[8]   "device minor number (octal ASCII)"
+    prefix   string[155] "path name prefix"
+    padding  bytes[12]   "padding to a 512-byte record"
+}
+"""

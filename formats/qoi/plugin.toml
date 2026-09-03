@@ -1,0 +1,25 @@
+id = "qoi"
+name = "QOI image"
+version = "1.0.0"
+description = "QOI (Quite OK Image) header and encoded pixel stream."
+author = "Nybble"
+
+[[formats]]
+name = "QOI"
+extension = "qoi"
+description = "QOI (Quite OK Image) header and encoded pixel stream."
+confidence = 95
+entry = "Qoi"
+endian = "be"
+detect = [{ offset = 0, hex = "71 6F 69 66" }]
+schema = """
+// QOI (Quite OK Image) — big-endian header + opaque encoded stream.
+struct Qoi {
+    magic      char[4]  "magic 'qoif'"
+    width      u32      "image width in pixels (big-endian)"
+    height     u32      "image height in pixels"
+    channels   u8       "3 = RGB, 4 = RGBA"
+    colorspace u8       "0 = sRGB with linear alpha, 1 = all linear"
+    pixels     bytes[*] "encoded chunk stream, ending in 00 00 00 00 00 00 00 01"
+}
+"""

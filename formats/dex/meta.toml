@@ -1,0 +1,5 @@
+category = "executable"
+tags = ["executable", "android", "dalvik", "bytecode"]
+maintainer = "Nybble"
+homepage = "https://source.android.com/docs/core/runtime/dex-format"
+sample = ""

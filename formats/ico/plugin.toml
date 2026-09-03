@@ -1,0 +1,38 @@
+id = "ico"
+name = "Windows icon / cursor"
+version = "1.0.0"
+description = "ICO / CUR icon directory and per-image entries."
+author = "Nybble"
+
+[[formats]]
+name = "ICO"
+extension = "ico"
+description = "Windows icon file (directory + image entries)"
+confidence = 70
+entry = "Ico"
+endian = "le"
+detect = [{ offset = 0, hex = "00 00 01 00" }]
+schema = """
+enum IcoType : u16 {
+    Icon   = 1
+    Cursor = 2
+}
+
+struct IconDirEntry {
+    width       u8   "image width in px (0 means 256)"
+    height      u8   "image height in px (0 means 256)"
+    colorCount  u8   "colors in the palette (0 if 256 or more)"
+    reserved    u8   "reserved (0)"
+    planes      u16  "color planes (or the cursor hotspot X)"
+    bitCount    u16  "bits per pixel (or the cursor hotspot Y)"
+    bytesInRes  u32  "size of the image data in bytes"
+    imageOffset u32  "offset of the image data from the file start"
+}
+
+struct Ico {
+    reserved u16     "reserved, always 0"
+    type     IcoType "resource type: 1 = icon, 2 = cursor"
+    count    u16     "number of images in the file"
+    entries  IconDirEntry[count] "the icon directory"
+}
+"""

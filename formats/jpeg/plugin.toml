@@ -1,0 +1,27 @@
+id = "jpeg"
+name = "JPEG image"
+version = "1.0.0"
+description = "JPEG start-of-image and the first marker segment (APP0/APP1/...)."
+author = "Nybble"
+
+[[formats]]
+name = "JPEG"
+extension = "jpg"
+description = "JPEG / JFIF image header"
+confidence = 90
+entry = "Jpeg"
+endian = "be"
+detect = [{ offset = 0, hex = "FF D8 FF" }]
+schema = """
+struct JpegSegment {
+    marker  u16 "marker: 0xFFE0 APP0/JFIF, 0xFFE1 APP1/Exif, etc."
+    length  u16 "segment length, including these two length bytes"
+    dataLen = length - 2
+    data    bytes[dataLen] "segment payload"
+}
+
+struct Jpeg {
+    soi     u16 "0xFFD8 start-of-image marker"
+    segment JpegSegment "the first marker segment after SOI"
+}
+"""

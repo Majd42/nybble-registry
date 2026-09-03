@@ -1,0 +1,5 @@
+category = "font"
+tags = ["font", "web", "sfnt", "woff"]
+maintainer = "Nybble"
+homepage = "https://www.w3.org/TR/WOFF/"
+sample = ""

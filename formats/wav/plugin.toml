@@ -1,0 +1,30 @@
+id = "wav"
+name = "WAV audio"
+version = "1.0.0"
+description = "RIFF/WAVE audio: RIFF header plus the fmt chunk."
+author = "Nybble"
+
+[[formats]]
+name = "WAV"
+extension = "wav"
+description = "WAVE audio (RIFF, little-endian; assumes fmt is first)"
+confidence = 100
+entry = "WAV"
+endian = "le"
+# "RIFF" at 0 and "WAVE" at 8.
+detect = [{ offset = 0, hex = "52 49 46 46" }, { offset = 8, hex = "57 41 56 45" }]
+schema = """
+struct WAV {
+    riff          char[4]
+    fileSize      u32
+    wave          char[4]
+    fmtId         char[4]
+    fmtSize       u32
+    audioFormat   u16
+    channels      u16
+    sampleRate    u32
+    byteRate      u32
+    blockAlign    u16
+    bitsPerSample u16
+}
+"""

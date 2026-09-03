@@ -1,0 +1,5 @@
+category = "filesystem"
+tags = ["filesystem", "disk", "partition", "boot"]
+maintainer = "Nybble"
+homepage = "https://en.wikipedia.org/wiki/Master_boot_record"
+sample = ""

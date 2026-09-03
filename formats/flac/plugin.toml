@@ -1,0 +1,35 @@
+id = "flac"
+name = "FLAC audio"
+version = "1.0.0"
+description = "FLAC lossless audio: magic and metadata-block stream, walked to the last block."
+author = "Nybble"
+
+[[formats]]
+name = "FLAC"
+extension = "flac"
+description = "FLAC lossless audio: magic and metadata-block stream, walked to the last block."
+confidence = 95
+entry = "Flac"
+endian = "be"
+detect = [{ offset = 0, hex = "66 4C 61 43" }]
+schema = """
+// FLAC — big-endian. Magic then a metadata-block stream ending at the block
+// whose header 'last' bit is set. Block lengths are 24-bit big-endian, read as
+// three bytes and recombined (the DSL has no u24 primitive).
+bitfield FlacBlockHeader : u8 {
+    lastBlock 7
+    blockType 0..6
+}
+struct FlacBlock {
+    header FlacBlockHeader "bit7 = last block, bits0-6 = type (0 = STREAMINFO)"
+    lenHi  u8              "length byte (high)"
+    lenMid u8              "length byte (mid)"
+    lenLo  u8              "length byte (low)"
+    length = lenHi * 65536 + lenMid * 256 + lenLo
+    data   bytes[length]   "metadata block contents"
+}
+struct Flac {
+    magic  char[4] "magic 'fLaC'"
+    blocks repeat FlacBlock until header.lastBlock "metadata blocks"
+}
+"""

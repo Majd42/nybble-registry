@@ -1,0 +1,5 @@
+category = "font"
+tags = ["font", "typography", "sfnt", "opentype"]
+maintainer = "Nybble"
+homepage = "https://learn.microsoft.com/en-us/typography/opentype/spec/otff"
+sample = ""

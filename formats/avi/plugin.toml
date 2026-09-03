@@ -1,0 +1,30 @@
+id = "avi"
+name = "AVI video"
+version = "1.0.0"
+description = "AVI (RIFF) container: header plus a first-level chunk walk."
+author = "Nybble"
+
+[[formats]]
+name = "AVI"
+extension = "avi"
+description = "AVI (RIFF) container: header plus a first-level chunk walk."
+confidence = 90
+entry = "Avi"
+endian = "le"
+detect = [{ offset = 0, hex = "52 49 46 46" }, { offset = 8, hex = "41 56 49 20" }]
+schema = """
+// RIFF / AVI — little-endian. A generic first-level RIFF chunk walker.
+// Note: RIFF pads odd-sized chunks to even boundaries; this walker assumes
+// even-sized chunks (true for LIST/movi/idx1 in practice).
+struct RiffChunk {
+    id   char[4]    "chunk FourCC (LIST, movi, idx1, ...)"
+    size u32        "payload size in bytes"
+    data bytes[size] "payload (LIST chunks nest more chunks inside)"
+}
+struct Avi {
+    magic    char[4] "RIFF"
+    fileSize u32     "total file size minus 8 bytes"
+    formType char[4] "'AVI ' form type"
+    chunks   repeat RiffChunk "top-level RIFF chunks"
+}
+"""

@@ -1,0 +1,34 @@
+id = "gpt"
+name = "GPT partition table"
+version = "1.0.0"
+description = "GUID Partition Table header (after the protective MBR, at LBA 1)."
+author = "Nybble"
+
+[[formats]]
+name = "GPT"
+extension = "img"
+description = "GUID Partition Table header"
+confidence = 90
+entry = "GptHeader"
+endian = "le"
+# "EFI PART" at LBA 1 (offset 512), after the protective MBR.
+detect = [{ offset = 512, hex = "45 46 49 20 50 41 52 54" }]
+schema = """
+struct GptHeader {
+    reservedMbr  bytes[512] "protective MBR at LBA 0"
+    signature    char[8]    "EFI PART"
+    revision     u32        "GPT revision (0x00010000)"
+    headerSize   u32        "header size in bytes (92)"
+    headerCrc32  u32        "CRC32 of this header"
+    reserved     u32        "reserved, must be 0"
+    currentLba   u64        "LBA of this header copy"
+    backupLba    u64        "LBA of the backup header"
+    firstUsable  u64        "first usable LBA for partitions"
+    lastUsable   u64        "last usable LBA for partitions"
+    diskGuid     bytes[16]  "disk GUID"
+    partEntryLba u64        "starting LBA of the partition entry array"
+    numEntries   u32        "number of partition entries"
+    entrySize    u32        "size of each partition entry (128)"
+    entriesCrc32 u32        "CRC32 of the partition entry array"
+}
+"""
